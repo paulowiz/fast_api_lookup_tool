@@ -14,26 +14,14 @@ router = APIRouter(
     responses={404: {"description": "Not found"}}
 )
 
-
-# models.Base.metadata.create_all(bind=engine)
-
-
-class User(BaseModel):
+class Address(BaseModel):
     first_name: str
     last_name: Optional[str]
 
 
-class Password(BaseModel):
-    current_password: str
-    new_password: str
-
-
 def get_db():
-    try:
-        db = async_session()
-        yield db
-    finally:
-        db.close()
+    db = async_session
+    yield db
 
 
 @router.get("")
