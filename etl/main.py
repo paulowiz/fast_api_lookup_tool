@@ -10,7 +10,7 @@ from database import sync_engine
 
 DATASET_URL = os.environ.get('DATASET_URL')
 OUTPUT_FOLDER = os.environ.get('OUTPUT_FOLDER')
-LOCAL_RUN = os.environ.get('LOCAL_RUN')
+LOCAL_RUN =  os.environ.get('LOCAL_RUN')
 
 # Logging configuration
 formatter = logging.Formatter('[%(asctime)s] %(levelname)s @ line %(lineno)d: %(message)s')
@@ -27,8 +27,8 @@ dt_string = datetime.now().strftime("%Y_%m_%d_%H_%M_%S")
 logger.info("Starting Extraction.....")
 logger.info("Downloading and extracting zip file")
 
+download_and_extract_zip(url=DATASET_URL, destination_folder=OUTPUT_FOLDER)
 
-download_and_extract_zip(url=DATASET_URL,destination_folder=OUTPUT_FOLDER)
 if LOCAL_RUN:
     logger.info("Removing big files just for the assigment...")
     remove_large_files(folder_path=OUTPUT_FOLDER, size_limit_gb=0.02)

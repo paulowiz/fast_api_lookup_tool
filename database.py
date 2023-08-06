@@ -15,5 +15,6 @@ sync_connection_string = f"postgresql://{db_user}:{db_password}@{db_host}/{db_da
 engine = create_async_engine(connection_string, echo=False)
 sync_engine = create_engine(sync_connection_string, pool_pre_ping=True)
 async_session = sessionmaker(engine, class_=AsyncSession, expire_on_commit=False, future=True)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=sync_engine)
 
 Base = declarative_base()

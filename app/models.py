@@ -15,7 +15,7 @@ class Address(Base):
     city = Column(String)
     district = Column(String)
     region = Column(String)
-    postalcode = Column(DateTime)
+    postcode = Column(DateTime)
     hash = Column(String, unique=True, index=True)
     type = Column(Boolean)
     coordinates = Column(String)
