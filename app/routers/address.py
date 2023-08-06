@@ -2,12 +2,16 @@ import sys
 
 sys.path.append("..")
 
-from typing import Optional
-from fastapi import Depends, APIRouter
-from database import async_session, SessionLocal
+from fastapi import Depends, APIRouter, HTTPException
+from database import session
 from sqlalchemy.orm import Session
-from pydantic import BaseModel
+from sqlalchemy.sql.functions import ReturnTypeFromArgs
 from app import models
+
+
+class UnAccent(ReturnTypeFromArgs):
+    pass
+
 
 router = APIRouter(
     prefix="/address",
@@ -16,18 +20,13 @@ router = APIRouter(
 )
 
 
-class Address(BaseModel):
-    first_name: str
-    last_name: Optional[str]
-
-
 def get_db():
-    db = SessionLocal()
+    db = session()
     yield db
 
 
-@router.get("/{text}")
-async def read_all_by_text(query: str = 'RONDA', page_num: int = 1, page_size: int = 10, db: Session = Depends(get_db)):
+@router.get("/{query}")
+async def search_address_by_text(query: str = 'RoNdA', page_num: int = 1, page_size: int = 10, db: Session = Depends(get_db)):
     start = (page_num - 1) * page_size
     end = start + page_size
     data = db.query(models.Address) \
@@ -39,13 +38,21 @@ async def read_all_by_text(query: str = 'RONDA', page_num: int = 1, page_size: i
         models.Address.city.ilike(f"%{query}%") |
         models.Address.postcode.ilike(f"%{query}%") |
         models.Address.unit.ilike(f"%{query}%")
-                ).all()
+    ).all()
     data_length = len(data)
-    response = {
-        "total": data_length,
-        "page_size": page_size,
-        "total_pages": round(data_length / page_size),
-        "current_page": page_num,
-        "data": data[start:end],
-    }
-    return response
+    if data_length % page_size != 0:
+        total_pages = int((data_length / page_size)) + 1
+    else:
+        total_pages = round(data_length / page_size)
+
+    if data_length == 0:
+        response = {
+            "total": data_length,
+            "page_size": page_size,
+            "total_pages": total_pages,
+            "current_page": page_num,
+            "data": data[start:end],
+        }
+        return response
+    else:
+        return HTTPException(status_code=404, detail="Address not found!")
