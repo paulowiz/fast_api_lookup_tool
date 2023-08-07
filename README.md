@@ -27,11 +27,9 @@ Install the required dependencies by running:
   
 3. Run docker compose `docker-compose up -d --build` (be sure if your ports 8000 and 5433 are available)
 
-4. Run the following command in the `python main.py --path1 "dataset_one.csv" --path2 "dataset_two.csv" --countries "Netherlands,United Kingdom` directory to run the action. 
+4. The ETL is going to run first, and it is taking about `3-4 minutes`
 
-5. The ETL is going to run first and it is taking about `3-4 minutes`
-
-6. After the ETL done you can check the API here http://localhost:8000/docs and use the endpoint o check address by text.
+5. After the ETL done you can check the API here http://localhost:8000/docs and try it out the endpoint.
 
 <br />  
   
