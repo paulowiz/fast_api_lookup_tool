@@ -43,6 +43,7 @@ Install the required dependencies by running:
   - `main.py`: Main file to run the ETL pipeline.
   - `utils.py`: class with generic functions to the etl process.
 - `requirements.txt`: A file containing project dependencies.
+- `database.py`: Database setup.
 - `.gitignore`: Defines files that should be ignored by Git.
 - `lab.ipynb`: Initial analysis that I did before building the ETL and service.
 - `docker-compose.yml`: A Docker file to run Postgres Database,ETL Process and REST API(Fast API)
