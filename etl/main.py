@@ -6,7 +6,7 @@ from utils import download_and_extract_zip, remove_large_files, list_files_in_fo
 import pandas as pd
 import concurrent.futures
 import os
-from database import sync_engine
+from database import engine
 
 DATASET_URL = os.environ.get('DATASET_URL')
 OUTPUT_FOLDER = os.environ.get('OUTPUT_FOLDER')
@@ -70,4 +70,4 @@ df_geometry = pd.DataFrame.from_records(combined_df['geometry'])
 df_joined = pd.merge(df_properties, df_geometry, left_index=True, right_index=True)
 
 logger.info("Loading Dataframe to Database.")
-df_joined.to_sql('address', sync_engine, if_exists='replace', index=False)
+df_joined.to_sql('address', engine, if_exists='replace', index=False)
