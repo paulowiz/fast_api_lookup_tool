@@ -1,36 +1,54 @@
-# Matrixian Data Engineering assignment
 
-Please describe your project here.
+  
+<!-- PROJECT -->  
+<p align="center">  
+  <h3 align="center">   
+   Data Engineer Assignment Matrixiangroup
+  </h3>   
+</p>  
+  
+<!-- ABOUT THE PROJECT -->  
+## 🤔 Introduction  
 
-## Set-up Python environment
-Run from the project root (on Linux):
-```shell
-python3.10 -m venv --upgrade-deps venv
-source venv/bin/activate
-pip install -r requirements.txt
-```
+Develop an ETL pipeline for extracting, transforming, and loading data from Spain's address zip file on S3 into a database, coupled with the creation of a RESTful API to enable address search based on textual input.
+<br />   
+  
+  
+<!-- INSTALLATION -->  
 
-## Database
-You can choose between MongoDB and PostgreSQL.
+# 🔨 Installation and Running
 
-Below is the command to create and run a Docker container that will host the MongoDB database:
-```shell
-docker run -d --name mongodb -p 27017:27017 -e MONGO_INITDB_ROOT_USERNAME=root -e MONGO_INITDB_ROOT_PASSWORD=admin mongo:5
-```
-Below is the command to create and run a Docker container that will host the PostgreSQL database:
-```shell
-docker run -d --name postgres -p 5432:5432 -e POSTGRES_HOST_AUTH_METHOD=trust postgres:14
-```
+Install the required dependencies by running:
 
-## Usage
-Run one of the commands below to serve the application on `localhost:8000`:
-```shell
-python3.10 main.py
-```
-```shell
-uvicorn main:app
-```
+  
+1. Clone this repository  
+  
+2. Setup inside the `docker-compose.yml` the variable `LOCAL_RUN=1` if you are running in your computer. I recommend `LOCAL_RUN=0` just on server with more resources (CPU and Memory RAM)
+  
+3. Run docker compose `docker-compose up -d --build` (be sure if your ports 8000 and 5433 are available)
 
-## Documentation
-When running, documentation for the application can be found at
-[http://localhost:8000/docs](http://localhost:8000/docs).
+4. Run the following command in the `python main.py --path1 "dataset_one.csv" --path2 "dataset_two.csv" --countries "Netherlands,United Kingdom` directory to run the action. 
+
+5. The ETL is going to run first and it is taking about `3-4 minutes`
+
+6. After the ETL done you can check the API here http://localhost:8000/docs and use the endpoint o check address by text.
+
+<br />  
+  
+## 📚 Project Files Overview
+- app
+  - routes
+    - `address.py`: address route with the endpoint to search by text. 
+  - `main.py`: main file to run the API service and swagger.
+  - `models.py`: ORM Table Mapping.
+- etl
+  - `main.py`: Main file to run the ETL pipeline.
+  - `utils.py`: class with generic functions to the etl process.
+- `requirements.txt`: A file containing project dependencies.
+- `.gitignore`: Defines files that should be ignored by Git.
+- `lab.ipynb`: Initial analysis that I did before building the ETL and service.
+- `docker-compose.yml`: A Docker file to run Postgres Database,ETL Process and REST API(Fast API)
+
+## 🔓 Author and Acknowledgements
+
+- **Author**: [Paulo Mota](https://www.linkedin.com/in/paulo-mota-955218a2/)<br>

@@ -10,7 +10,7 @@ from database import engine
 
 DATASET_URL = os.environ.get('DATASET_URL')
 OUTPUT_FOLDER = os.environ.get('OUTPUT_FOLDER')
-LOCAL_RUN =  os.environ.get('LOCAL_RUN')
+LOCAL_RUN = os.environ.get('LOCAL_RUN')
 
 # Logging configuration
 formatter = logging.Formatter('[%(asctime)s] %(levelname)s @ line %(lineno)d: %(message)s')
@@ -64,7 +64,6 @@ logger.info("Cleaning Dataframe...")
 df_properties = pd.DataFrame.from_records(combined_df['properties'])
 df_properties = df_properties.drop_duplicates(subset=['hash'], keep='last')
 df_properties = df_properties[df_properties['hash'] != 'e70d2a522603d9f0']
-df_properties = df_properties.drop('id', axis=1)
 df_geometry = pd.DataFrame.from_records(combined_df['geometry'])
 
 df_joined = pd.merge(df_properties, df_geometry, left_index=True, right_index=True)

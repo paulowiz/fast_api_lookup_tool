@@ -45,7 +45,7 @@ async def search_address_by_text(query: str = 'RoNdA', page_num: int = 1, page_s
     else:
         total_pages = round(data_length / page_size)
 
-    if data_length == 0:
+    if data_length != 0:
         response = {
             "total": data_length,
             "page_size": page_size,
@@ -55,4 +55,4 @@ async def search_address_by_text(query: str = 'RoNdA', page_num: int = 1, page_s
         }
         return response
     else:
-        return HTTPException(status_code=404, detail="Address not found!")
+        raise HTTPException(status_code=404, detail="Address not found!")
